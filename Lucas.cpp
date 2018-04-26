@@ -4,6 +4,7 @@
 #include <time.h>
 #include <cmath>
 #include <stdio.h>
+#include <math.h>
 
 using namespace std;
 
@@ -101,25 +102,52 @@ void Dodatek_do_Fermata()
 
 
 
+int rozklad_na_czynniki(int n, vector <int> &wynik_rozkladu)
+{
+	int pierw, pom;
 
+	pierw = sqrt(n);
+
+	cout << "Czynniki pierwsze liczby " << n << ": ";
+
+	int k = 2; //ustawiamy k na pierwsz¹ liczbê pierwsz¹
+
+			   //rozk³ad liczby na czynniki pierwsze
+	while (n>1 && k <= pierw)
+	{
+		while (n%k == 0) //dopóki liczba jest podzielna przez k
+		{
+			wynik_rozkladu.push_back(k);
+			cout << k << " ";
+			n /= k;
+		}
+		++k;
+	}
+
+	if (n>1)
+		cout << n;
+	cout << endl;
+	return 0;
+}
 
 int lucasik(int n,int q)
 {
-	// declaring base values
-	// for positions 0 and 1
-	int a = 2, b = 1, c, i;
-
-	if (n == 0)
-		return a;
-
-	// generating number
-	for (i = 2; i <= n; i++)
+	vector <int> rozklad;
+	bool krok1 = 0, krok2 = 0;
+	if (pow(q, n - 1) == 1 % n)
 	{
-		c = a + b;
-		a = b;
-		b = c;
+		krok1 = 1;
+
+		rozklad_na_czynniki(n - 1, rozklad);
+
+		for (int i = 0; i < rozklad.size; i++)
+		{
+			cout << "Lucas w wiktorze" << endl;
+			cout << rozklad[i];
+		}
+
 	}
-	return b;
+	return 0;
 }
 
 
@@ -133,7 +161,60 @@ int main()
 
 	//cout << lucas(297) << endl;
 
+	//rozklad_na_czynniki(2296);
+
 	system("Pause");
 
 	return 0;
 }
+
+
+
+
+//#include <math.h>
+//#include <stdio.h>
+//#include <limits.h>
+//#pragma precision=log10l(ULLONG_MAX)/2
+//
+//typedef enum { FALSE = 0, TRUE = 1 } BOOL;
+//
+//BOOL is_prime(int p) {
+//	if (p == 2) return TRUE;
+//	else if (p <= 1 || p % 2 == 0) return FALSE;
+//	else {
+//		BOOL prime = TRUE;
+//		const int to = sqrt(p);
+//		int i;
+//		for (i = 3; i <= to; i += 2)
+//			if (!(prime == p % i))break;
+//		return prime;
+//	}
+//}
+//
+//BOOL is_mersenne_prime(int p) {
+//	if (p == 2) return TRUE;
+//	else {
+//		const long long unsigned m_p = (1LLU << p) - 1;
+//		long long unsigned s = 4;
+//		int i;
+//		for (i = 3; i <= p; i++) {
+//			s = (s * s - 2) % m_p;
+//		}
+//		if (s == 0) {return FALSE;}
+//	}
+//}
+//
+//int main(int argc, char **argv) {
+//
+//	const int upb = log2l(ULLONG_MAX) / 2;
+//	int p;
+//	printf(" Mersenne primes:\n");
+//	for (p = 2; p <= upb; p += 1) {
+//		if (is_prime(p) && is_mersenne_prime(p)) {
+//			printf(" %u", p);
+//		}
+//	}
+//	printf("\n");
+//
+//	system("Pause");
+//}
